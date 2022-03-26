@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  app:
+    image: 'mitrasoft_spring:latest'
+    build:
+      context: .
+    container_name: mitrasoft_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://mitrasoft_db:5432/mitrasoft_db
+      - SPRING_DATASOURCE_USERNAME=mitrasoftuser
+      - SPRING_DATASOURCE_PASSWORD=qwerty
+
+  db:
+    image: postgres:13
+    container_name: mitrasoft_db
+    environment:
+      - POSTGRES_DB=mitrasoft_db
+      - POSTGRES_USER=mitrasoftuser
+      - POSTGRES_PASSWORD=qwerty
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mitrasoftuser -d mitrasoft_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5 
+    
+  # liquibase:
+  #   image: liquibase/liquibase:4.9
+  #   container_name: liquibase
+  #   command: --url=jdbc:postgresql://mitrasoft_db:5432/mitrasoft_db?user=mitrasoftuser&password=qwerty --changeLogFile=changelog.xml update
+  #   depends_on: 
+  #     - db
+  #   volumes:
+  #     - ./mitrasoft_server/src/main/resources/db/changelog/changelog-master.xml:/liquibase/changelog.xml
