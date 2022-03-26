@@ -1,0 +1,17 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mitrasoft_db
+    username: mitrasoftuser
+    password: qwerty
+
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE

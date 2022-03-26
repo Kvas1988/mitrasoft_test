@@ -1,0 +1,25 @@
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  application:
+    name: mitrasoftserver
+
+  datasource:
+    url: jdbc:h2:./mitrasoftdb
+    username: sa
+    password:
+
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+
+  h2:
+    console:
+      enabled: true
+      path: /h2console/
+      settings:
+        web-allow-others: true
