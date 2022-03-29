@@ -1,0 +1,20 @@
+syntax = "proto3";
+package org.kvas.mitrasoftserver.grpc;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+message MitrasoftMsgRequest {
+  string message = 1;
+}
+
+message MitrasoftMsgResponse {
+  int64 id = 1;
+  string message = 2;
+  google.protobuf.Timestamp createdAt = 3;
+}
+
+service MessageService {
+  rpc createMessage(MitrasoftMsgRequest) returns (google.protobuf.Empty);
+  rpc getMessages(google.protobuf.Empty) returns (stream MitrasoftMsgResponse);
+}

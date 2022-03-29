@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mitrasoft_db
+    url: jdbc:postgresql://localhost:5432/mitrasoftdb
     username: mitrasoftuser
     password: qwerty
 

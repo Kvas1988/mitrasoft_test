@@ -25,9 +25,6 @@ public class MessageController {
     @Value("${SERVER_URL:http://localhost:8080/rest/message}")
     private String SERVER_URL;
 
-    // public static final String SERVER_URL = System.getProperty("SERVER_URL", "http://localhost:8080/rest/message");
-    // private static final String SERVER_URL = "http://mitrasoftserver:8080/rest/message";
-
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("message", new MessageDto());

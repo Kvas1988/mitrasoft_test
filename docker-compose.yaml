@@ -4,10 +4,11 @@ services:
   app:
     image: 'mitrasoftserver:latest'
     build:
-      context: .
+      context: ./mitrasoft_server
     container_name: mitrasoftserver
     ports:
       - "8080:8080"
+      - "9090:9090"
     depends_on:
       db:
         condition: service_healthy
