@@ -21,7 +21,6 @@ public class MessageServiceGrpcImpl extends MessageServiceGrpc.MessageServiceImp
 
     @Override
     public void createMessage(Message.MitrasoftMsgRequest request, StreamObserver<Empty> responseObserver) {
-        // super.createMessage(request, responseObserver);
 
         logger.info("got new message: " + request.getMessage());
         messageRepository.save(new org.kvas.mitrasoftserver.model.Message(request.getMessage()));
