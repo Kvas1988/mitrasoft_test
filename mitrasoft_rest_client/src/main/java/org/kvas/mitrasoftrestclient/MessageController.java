@@ -67,4 +67,12 @@ public class MessageController {
         List<Message> messages = grpcService.getMessages();
         return messages;
     }
+
+    @PostMapping("/grpc/send")
+    public String sendGrpcMessage(@ModelAttribute MessageDto message,
+                              Model model) {
+        grpcService.sendMessage(message);
+        model.addAttribute("message", message);
+        return "result";
+    }
 }

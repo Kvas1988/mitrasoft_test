@@ -39,6 +39,8 @@ And of course you can send and get messages by client (http://localhost:8081)
 
 There's implementation of gRPC in client app.
 
+> Currently gRPC sendMessage method has an issue: sending message get a StatusRuntimeException: CANCELLED: RST_STREAM closed stream. HTTP/2 error code: CANCEL. Never the less message is sent.
+
 Also you can send messages by gRPC with [grpcurl tool](https://github.com/fullstorydev/grpcurl).
 For MacOs you can get it with Homebrew:
 ```bash

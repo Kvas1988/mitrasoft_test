@@ -2,9 +2,13 @@ package org.kvas.mitrasoftrestclient;
 
 import com.google.protobuf.Empty;
 import com.google.protobuf.Timestamp;
+import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.kvas.mitrasoftserver.grpc.Message;
 import org.kvas.mitrasoftserver.grpc.MessageServiceGrpc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -20,6 +24,21 @@ public class ClientGrpcMessageService {
 
     @GrpcClient("messageClient")
     private MessageServiceGrpc.MessageServiceBlockingStub serviceStub;
+
+    @Autowired
+    private static Logger logger = LoggerFactory.getLogger(ClientGrpcMessageService.class);
+
+    public void sendMessage(MessageDto message) {
+
+        Message.MitrasoftMsgRequest request = Message.MitrasoftMsgRequest.newBuilder()
+                        .setMessage(message.getMessage())
+                                .build();
+        try {
+            serviceStub.createMessage(request);
+        } catch (StatusRuntimeException e) {
+            logger.error(e.getMessage());
+        }
+    }
 
     public List<org.kvas.mitrasoftrestclient.Message> getMessages() {
 
