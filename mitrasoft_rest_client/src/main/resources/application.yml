@@ -4,3 +4,9 @@ server:
 logging:
   level:
     root: INFO
+
+grpc:
+  client:
+    messageClient:
+      address: ${GRPC_SERVER:static://localhost:9090}
+      negotiationType: plaintext

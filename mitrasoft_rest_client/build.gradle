@@ -1,7 +1,18 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.18'
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.6.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'application'
+    id "com.google.protobuf" version "0.8.18"
 }
 
 group = 'org.kvas'
@@ -24,8 +35,56 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation 'net.devh:grpc-client-spring-boot-starter:2.13.1.RELEASE'
+    implementation 'com.google.protobuf:protobuf-java-util:4.0.0-rc-2'
+
 }
+
+//application {
+//    mainClass = 'org/kvas/mitrasoftrestclient/MitrasoftrestclientApplication'
+//}
+
+compileJava {
+    options.release = 17
+}
+
+//springBoot {
+//    mainClass = 'org/kvas/mitrasoftrestclient/MitrasoftrestclientApplication'
+//}
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/proto'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        // The artifact spec for the Protobuf Compiler
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        // Optional: an artifact spec for a protoc plugin, with "grpc" as
+        // the identifier, which can be referred to in the "plugins"
+        // container of the "generateProtoTasks" closure.
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.0-pre2'
+        }
+    }
+    generateProtoTasks {
+        ofSourceSet('main')*.plugins {
+            // Apply the "grpc" plugin whose spec is defined above, without
+            // options.  Note the braces cannot be omitted, otherwise the
+            // plugin will not be added. This is because of the implicit way
+            // NamedDomainObjectContainer binds the methods.
+            grpc { }
+        }
+    }
 }

@@ -16,11 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
+import java.util.List;
+
 @Controller
 public class MessageController {
 
     @Autowired
     private static Logger logger = LoggerFactory.getLogger(MessageController.class);
+
+    @Autowired
+    private ClientGrpcMessageService grpcService;
 
     @Value("${SERVER_URL:http://localhost:8080/rest/message}")
     private String SERVER_URL;
@@ -54,5 +59,12 @@ public class MessageController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Message[]> response = restTemplate.getForEntity(SERVER_URL, Message[].class);
         return response.getBody();
+    }
+
+    @GetMapping("/grpc/messages")
+    @ResponseBody
+    public Iterable<Message> getGrpcMessages() {
+        List<Message> messages = grpcService.getMessages();
+        return messages;
     }
 }

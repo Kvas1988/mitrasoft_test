@@ -27,6 +27,7 @@ services:
       - "8081:8081"
     environment:
       - SERVER_URL=http://mitrasoftserver:8080/rest/message
+      - GRPC_SERVER=dns:///mitrasoftserver:9090
 
 
   db:

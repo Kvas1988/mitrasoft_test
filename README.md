@@ -37,7 +37,9 @@ And of course you can send and get messages by client (http://localhost:80801)
 
 ### gRPC
 
-At this moment you can send messages by gRPC with [grpcurl tool](https://github.com/fullstorydev/grpcurl).
+There's implementation of gRPC in client app.
+
+Also you can send messages by gRPC with [grpcurl tool](https://github.com/fullstorydev/grpcurl).
 For MacOs you can get it with Homebrew:
 '''bash
 brew install grpcurl
